@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Certificate Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .form-section {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .form-section h1 {
+      color: white;
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .input-group {
+      margin: 20px 0;
+    }
+
+    input, select {
+      padding: 15px;
+      font-size: 16px;
+      width: 70%;
+      max-width: 400px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    button {
+      padding: 15px 40px;
+      font-size: 18px;
+      background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      margin: 20px 10px;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .certificate {
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      border: 15px solid;
+      border-image: linear-gradient(45deg, #d4af37, #ffd700, #d4af37) 1;
+      padding: 50px;
+      margin-top: 30px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      display: none;
+      animation: certificateAppear 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .certificate::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+      animation: shimmer 3s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    @keyframes certificateAppear {
+      0% { 
+        opacity: 0; 
+        transform: scale(0.8) rotateY(90deg);
+      }
+      100% { 
+        opacity: 1; 
+        transform: scale(1) rotateY(0deg);
+      }
+    }
+
+    .certificate-header {
+      border-bottom: 3px solid #d4af37;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+
+    .certificate h2 {
+      font-size: 3em;
+      margin-bottom: 10px;
+      color: #2c3e50;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .certificate h3 {
+      font-size: 2.2em;
+      color: #d4af37;
+      margin: 20px 0;
+      font-style: italic;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .certificate p {
+      font-size: 1.2em;
+      margin: 15px 0;
+      color: #34495e;
+      line-height: 1.6;
+    }
+
+    .course-title {
+      font-size: 2em !important;
+      color: #2c3e50 !important;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 25px 0 !important;
+    }
+
+    .signature-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 60px;
+      padding: 0 40px;
+      align-items: center;
+    }
+
+    .signature {
+      width: 250px;
+      text-align: center;
+    }
+
+    .signature-line {
+      width: 200px;
+      height: 2px;
+      background: linear-gradient(to right, #d4af37, #ffd700, #d4af37);
+      margin: 20px auto 10px;
+    }
+
+    .signature p {
+      font-size: 16px;
+      color: #2c3e50;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .certificate-id {
+      position: absolute;
+      bottom: 20px;
+      right: 30px;
+      font-size: 12px;
+      color: #7f8c8d;
+      font-family: 'Courier New', monospace;
+    }
+
+    .decorative-corner {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border: 3px solid #d4af37;
+    }
+
+    .decorative-corner.top-left {
+      top: 15px;
+      left: 15px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .decorative-corner.top-right {
+      top: 15px;
+      right: 15px;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    .decorative-corner.bottom-left {
+      bottom: 15px;
+      left: 15px;
+      border-right: none;
+      border-top: none;
+    }
+
+    .decorative-corner.bottom-right {
+      bottom: 15px;
+      right: 15px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .download-btn {
+      background: linear-gradient(45deg, #27ae60, #2ecc71);
+      margin-top: 20px;
+    }
+
+    .reset-btn {
+      background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+    }
+
+    @media (max-width: 768px) {
+      .certificate {
+        padding: 30px 20px;
+        margin: 20px 10px;
+      }
+      
+      .signature-section {
+        flex-direction: column;
+        gap: 30px;
+      }
+      
+      input, select {
+        width: 90%;
+      }
+      
+      .certificate h2 {
+        font-size: 2em;
+      }
+      
+      .certificate h3 {
+        font-size: 1.6em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-section">
+      <h1>🎓 Certificate Generator</h1>
+      
+      <div class="input-group">
+        <input type="text" id="nameInput" placeholder="Enter recipient's full name" />
+      </div>
+      
+      <div class="input-group">
+        <select id="courseSelect">
+          <option value="Full Stack Web Development">Full Stack Web Development</option>
+          <option value="Frontend Development">Frontend Development</option>
+          <option value="Backend Development">Backend Development</option>
+          <option value="Mobile App Development">Mobile App Development</option>
+          <option value="Data Science">Data Science</option>
+          <option value="Machine Learning">Machine Learning</option>
+          <option value="Digital Marketing">Digital Marketing</option>
+          <option value="UI/UX Design">UI/UX Design</option>
+          <option value="DevOps Engineering">DevOps Engineering</option>
+          <option value="Cybersecurity">Cybersecurity</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <input type="date" id="dateInput" />
+      </div>
+      
+      <button onclick="generateCertificate()">✨ Generate Certificate</button>
+      <button class="reset-btn" onclick="resetForm()">🔄 Reset</button>
+    </div>
+
+    <div id="certificate" class="certificate">
+      <div class="decorative-corner top-left"></div>
+      <div class="decorative-corner top-right"></div>
+      <div class="decorative-corner bottom-left"></div>
+      <div class="decorative-corner bottom-right"></div>
+      
+      <div class="certificate-header">
+        <h2>Certificate of Completion</h2>
+      </div>
+      
+      <p style="font-size: 1.4em; margin-bottom: 30px;">This is to certify that</p>
+      <h3 id="userName"></h3>
+      <p style="font-size: 1.4em; margin: 30px 0;">has successfully completed the course</p>
+      <p class="course-title" id="courseName"></p>
+      <p style="font-size: 1.2em; margin-top: 40px;">
+        Completed on: <strong><span id="completionDate"></span></strong>
+      </p>
+
+      <div class="signature-section">
+        <div class="signature">
+          <div class="signature-line"></div>
+          <p>Course Instructor</p>
+        </div>
+        <div class="signature">
+          <div class="signature-line"></div>
+          <p>Academic Director</p>
+        </div>
+      </div>
+      
+      <div class="certificate-id">
+        Certificate ID: <span id="certificateId"></span>
+      </div>
+    </div>
+    
+    <div id="actionButtons" style="display: none; margin-top: 20px;">
+      <button class="download-btn" onclick="downloadCertificate()">💾 Download Certificate</button>
+      <button class="reset-btn" onclick="resetForm()">🔄 Generate New</button>
+    </div>
+  </div>
+
+ <!-- <script>
+    // Set today's date as default
+    document.getElementById('dateInput').valueAsDate = new Date();
+
+    function generateCertificate() {
+      const name = document.getElementById("nameInput").value.trim();
+      const course = document.getElementById("courseSelect").value;
+      const date = document.getElementById("dateInput").value;
+      
+      if (name === "") {
+        alert("Please enter the recipient's name!");
+        return;
+      }
+      
+      if (date === "") {
+        alert("Please select a completion date!");
+        return;
+      }
+
+      // Update certificate content
+      document.getElementById("userName").textContent = name;
+      document.getElementById("courseName").textContent = course;
+      document.getElementById("completionDate").textContent = new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      
+      // Generate unique certificate ID
+      const certificateId = 'CERT-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+      document.getElementById("certificateId").textContent = certificateId;
+
+      // Show certificate and action buttons
+      document.getElementById("certificate").style.display = "block";
+      document.getElementById("actionButtons").style.display = "block";
+      
+      // Scroll to certificate
+      setTimeout(() => {
+        document.getElementById("certificate").scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+
+    function resetForm() {
+      document.getElementById("nameInput").value = "";
+      document.getElementById("courseSelect").selectedIndex = 0;
+      document.getElementById('dateInput').valueAsDate = new Date();
+      document.getElementById("certificate").style.display = "none";
+      document.getElementById("actionButtons").style.display = "none";
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function downloadCertificate() {
+      // Simple implementation - in a real app, you'd want to use html2canvas or similar
+      const certificate = document.getElementById("certificate");
+      const name = document.getElementById("userName").textContent;
+      const course = document.getElementById("courseName").textContent;
+      
+      // Create a new window with just the certificate for printing
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Certificate - ${name}</title>
+          <style>
+            body { font-family: Georgia, serif; margin: 0; padding: 20px; }
+            ${document.querySelector('style').innerHTML}
+            .certificate { display: block !important; margin: 0; box-shadow: none; }
+          </style>
+        </head>
+        <body>
+          ${certificate.outerHTML}
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+      
+      // Trigger print dialog
+      setTimeout(() => {
+        printWindow.print();
+      }, 500);
+    }
+
+    // Add some keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && e.target.id === 'nameInput') {
+        generateCertificate();
+      }
+      if (e.key === 'Escape') {
+        resetForm();
+      }
+    });
+  </script> -->
+
+<script src="script.js"></script>
+</body>
+</html>
