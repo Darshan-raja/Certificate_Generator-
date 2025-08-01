@@ -151,13 +151,38 @@
       margin: 25px 0 !important;
     }
 
-    .signature-section {
+    /* .signature-section {
       display: flex;
       justify-content: space-between;
       margin-top: 60px;
       padding: 0 40px;
       align-items: center;
+    } */
+    /* .signature-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      padding: 0 30px;
+      align-items: center;
+    } */
+
+    /* .signature {
+      width: 200px;
+      text-align: center;
+    } */
+
+    .signature img {
+      width: 100px;
+      height: auto;
     }
+
+    /* .signature p {
+      border-top: 1px solid #333;
+      margin-top: 10px;
+      padding-top: 5px;
+      font-size: 16px;
+      color: #333;
+    } */
 
     .signature {
       width: 250px;
