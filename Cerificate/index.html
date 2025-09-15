@@ -8,7 +8,7 @@
   <style>
     body {
       font-family: 'Georgia', serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #667eea 0%, #8653b9 100%);
       min-height: 100vh;
       text-align: center;
       padding: 20px;
@@ -291,8 +291,8 @@
         <input type="date" id="dateInput" />
       </div>
       
-      <button onclick="generateCertificate()">✨ Generate Certificate</button>
-      <button class="reset-btn" onclick="resetForm()">🔄 Reset</button>
+      <button id="generateBtn">✨ Generate Certificate</button>
+      <button id="resetBtn" class="reset-btn">🔄 Reset</button>
     </div>
 
     <div id="certificate" class="certificate">
@@ -315,14 +315,13 @@
 
       <div class="signature-section">
         <div class="signature">
-          <div class="signature-line"></div>
           <img src="https://img.freepik.com/premium-vector/fake-signature-hand-drawn-sample-own-autograph_649512-1799.jpg" alt="Instructor Signature" />
+          <div class="signature-line"></div>
           <p>Course Instructor</p>
         </div>
         <div class="signature">
           <img src="https://img.freepik.com/premium-vector/fake-signature-hand-drawn-sample-own-autograph_649512-1799.jpg" alt="Instructor Signature" />
           <div class="signature-line"></div>
-          
           <p>Academic Director</p>
         </div>
       </div>
@@ -333,8 +332,8 @@
     </div>
     
     <div id="actionButtons" style="display: none; margin-top: 20px;">
-      <button class="download-btn" onclick="downloadCertificate()">💾 Download Certificate</button>
-      <button class="reset-btn" onclick="resetForm()">🔄 Generate New</button>
+      <button id="downloadBtn" class="download-btn">💾 Download Certificate</button>
+      <button id="resetNewBtn" class="reset-btn">🔄 Generate New</button>
     </div>
   </div>
   
